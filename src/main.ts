@@ -6,7 +6,10 @@ import { AppModule } from './app.module';
 
 // El resolver DNS local (VPN/proxy en 127.0.0.1) no responde bien las
 // consultas SRV que necesita `mongodb+srv://`; se fuerza uno público.
-setServers(['8.8.8.8', '1.1.1.1']);
+// Solo aplica fuera de producción: en Heroku el resolver por defecto funciona bien.
+if (process.env.NODE_ENV !== 'production') {
+  setServers(['8.8.8.8', '1.1.1.1']);
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

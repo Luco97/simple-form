@@ -1,10 +1,13 @@
-import { Entity, Column, ObjectIdColumn } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, CreateDateColumn } from 'typeorm';
 import { ObjectId } from 'mongodb';
 
 @Entity()
 export class Sample {
   @ObjectIdColumn()
   id: ObjectId;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Column()
   marca: string;

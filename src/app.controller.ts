@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import type { Response } from 'express';
 import { AppService } from './app.service';
 import { SampleService } from './database/models/sample/sample.service';
 import { CreateSampleDto } from './database/models/sample/dto/create-sample.dto';
@@ -11,8 +12,12 @@ export class AppController {
   ) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  root(@Res() res: Response) {
+    const frontendUrl = process.env.FRONTEND_URL;
+    if (frontendUrl) {
+      return res.redirect(302, frontendUrl);
+    }
+    return res.send(this.appService.getHello());
   }
 
   @Post('sample')
